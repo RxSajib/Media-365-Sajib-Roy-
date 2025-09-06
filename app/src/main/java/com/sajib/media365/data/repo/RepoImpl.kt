@@ -1,13 +1,12 @@
 package com.sajib.media365.data.repo
 
 import com.google.gson.Gson
-import com.sajib.media365.data.model.ErrorResponse
-import com.sajib.media365.data.model.GenericResponse
+import com.sajib.media365.data.model.response.ErrorResponse
+import com.sajib.media365.data.model.response.GenericResponse
 import com.sajib.media365.data.model.post.PostResponse
 import com.sajib.media365.data.network.MyApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException

@@ -38,7 +38,7 @@ fun StoryItem(data: Data, onClick: (Data) -> Unit) {
             .padding(10.dp),
     ) {
         AsyncImage(
-            model = "https://example.com/image.jpg",
+            model = data.url, //load image url
             contentDescription = null,
             modifier = Modifier.size(50.dp),
             contentScale = ContentScale.Crop,
