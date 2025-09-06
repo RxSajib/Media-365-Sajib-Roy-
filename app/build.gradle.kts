@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt.android)
-
+    alias(libs.plugins.mapsplatform.secrets.plugin)
 }
 
 android {
@@ -29,6 +29,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String", "BASE_URL", "\"${project.properties["BASEURL"]}\"")
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "\"${project.properties["BASEURL"]}\"")
         }
     }
     compileOptions {
@@ -40,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
