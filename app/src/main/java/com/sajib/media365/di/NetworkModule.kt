@@ -58,7 +58,7 @@ object NetworkModule {
         val gson = gsonBuilder.create()
 
         return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson)).client(okHttpClient).build()
+                .addConverterFactory(GsonConverterFactory.create(gson)).client(okHttpClient).build()
             .create(MyApi::class.java)
     }
 }

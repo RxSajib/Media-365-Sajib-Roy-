@@ -7,8 +7,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.sajib.media365.ui.views.screen.DetailsScreen
 import com.sajib.media365.ui.views.screen.DetailsScreenRoute
-import com.sajib.media365.ui.views.screen.HomeScreen
-import com.sajib.media365.ui.views.screen.HomeScreenRoute
+import com.sajib.media365.ui.views.screen.home.HomeScreen
+import com.sajib.media365.ui.views.screen.home.HomeScreenRoute
 
 @Composable
 fun App() {
