@@ -1,5 +1,6 @@
 package com.sajib.media365.ui.views.screen.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,7 +30,9 @@ fun HomeScreen(navHostController: NavHostController) {
     val viewModel : HomeViewModel = hiltViewModel()
     val post = viewModel.post.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val sampleList = stories
+    val catNewsList = viewModel.cateNewsList.collectAsStateWithLifecycle()
+
+    Log.d(TAG, "HomeScreen: ${post.value}")
 
     Scaffold(
         topBar = {
@@ -46,11 +49,14 @@ fun HomeScreen(navHostController: NavHostController) {
 
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(sampleList){data ->
-                    StoryItem(data = data, onClick = { clickData ->
-                        navHostController.navigate(DetailsScreenRoute(id = clickData.id, headLine = clickData.headline))
-                    })
+                catNewsList.value?.let {newsListResponse ->
+                    items(newsListResponse.data){data ->
+                        StoryItem(data = data, onClick = { clickData ->
+                            navHostController.navigate(DetailsScreenRoute(id = clickData.id, headLine = clickData.headline))
+                        })
+                    }
                 }
+
             }
 
         }

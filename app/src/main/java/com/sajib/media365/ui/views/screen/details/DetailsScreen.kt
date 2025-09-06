@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.sajib.media365.ui.views.component.MyTopBar
 import com.sajib.media365.ui.views.component.StoryDetailsItem
@@ -24,7 +27,13 @@ data class DetailsScreenRoute(val id: String = "", val headLine : String ="")
 fun DetailsScreen(navHostController: NavHostController, args: DetailsScreenRoute? = null) {
 
     val viewModel : StoryDetailsViewModel = hiltViewModel()
-    val content = contents
+    val cateNewsResponse = viewModel.cateNewsDetails.collectAsStateWithLifecycle()
+
+    LaunchedEffect(args?.id) {
+        args?.let {
+            viewModel.getCateNewsDetails(id = it.id)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -43,9 +52,12 @@ fun DetailsScreen(navHostController: NavHostController, args: DetailsScreenRoute
             contentAlignment = Alignment.Center
         ) {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(content.size) {
-                    StoryDetailsItem(content = content[it])
+                cateNewsResponse.value?.let {response ->
+                    items(response.contents) {content ->
+                        StoryDetailsItem(content = content)
+                    }
                 }
+
             }
         }
     }

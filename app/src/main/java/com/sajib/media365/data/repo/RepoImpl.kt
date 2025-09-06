@@ -1,6 +1,9 @@
 package com.sajib.media365.data.repo
 
+import android.util.Log
 import com.google.gson.Gson
+import com.sajib.media365.data.model.cat_news_list.CatNewsListResponse
+import com.sajib.media365.data.model.cate_news_details.CateNewsDetails
 import com.sajib.media365.data.model.response.ErrorResponse
 import com.sajib.media365.data.model.response.GenericResponse
 import com.sajib.media365.data.model.post.PostResponse
@@ -12,20 +15,35 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.math.log
 
 class RepoImpl @Inject constructor(
     private val myApi: MyApi
 ) : Repo {
     override suspend fun getPost(): GenericResponse<PostResponse> {
-       return executeSafely {
+        return executeSafely {
             myApi.getPost()
-       }
+        }
     }
+
+    override suspend fun getNewsList(): GenericResponse<CatNewsListResponse> {
+        return executeSafely {
+            myApi.getNewsList()
+        }
+    }
+
+    override suspend fun getStoryDetails(id: String): GenericResponse<CateNewsDetails> {
+        return executeSafely {
+            myApi.getStoryDetails(id = id)
+        }
+    }
+
+
 }
 
 
 suspend fun <T : Any> executeSafely(
-    block: suspend () -> Response<GenericResponse<T>>
+    block: suspend () -> Response<T>
 ): GenericResponse<T> = withContext(Dispatchers.IO) {
     try {
         block().toGenericResponse()
@@ -40,25 +58,19 @@ suspend fun <T : Any> executeSafely(
     }
 }
 
-private fun <T : Any> Response<GenericResponse<T>>.toGenericResponse(): GenericResponse<T> {
+private fun <T : Any> Response<T>.toGenericResponse(): GenericResponse<T> {
     if (isSuccessful) {
-        return body() ?: GenericResponse(error = ErrorResponse(message = "Empty response body"))
+        val body = body()
+        return if (body != null) GenericResponse(data = body)
+        else GenericResponse(error = ErrorResponse(message = "Empty response body"))
     }
 
-    val fallback = GenericResponse<T>(
-        error = ErrorResponse(code = code(), message = message())
-    )
+    val fallback = GenericResponse<T>(error = ErrorResponse(code = code(), message = message()))
+    val raw = try { errorBody()?.string() } catch (_: Exception) { null } ?: return fallback
 
-    val raw = try {
-        errorBody()?.string()
-    } catch (_: Exception) {
-        null
-    } ?: return fallback
-
-    // Parse only the error object; avoid GenericResponse<T> erasure issues
     return runCatching {
-        val parsedError = Gson().fromJson(raw, ErrorResponse::class.java)
-        GenericResponse<T>(error = parsedError ?: ErrorResponse(code = code(), message = message()))
+        val parsed = Gson().fromJson(raw, ErrorResponse::class.java)
+        GenericResponse<T>(error = parsed ?: ErrorResponse(code = code(), message = message()))
     }.getOrElse { fallback }
 }
 
