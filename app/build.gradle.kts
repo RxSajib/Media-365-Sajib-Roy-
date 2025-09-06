@@ -87,4 +87,7 @@ dependencies {
     //coil compose
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+
+    //lottie compose
+    implementation(libs.lottie.compose)
 }
