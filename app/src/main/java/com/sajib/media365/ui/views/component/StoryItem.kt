@@ -25,6 +25,7 @@ import com.sajib.media365.data.model.cat_news_list.Links
 import com.sajib.media365.data.model.cat_news_list.TeaserImage
 import com.sajib.media365.data.model.cat_news_list.Url
 import com.sajib.media365.R
+import com.sajib.media365.utils.TimeDateConverter.formatRelativeTime
 
 @Composable
 fun StoryItem(data: Data, onClick: (Data) -> Unit) {
@@ -61,7 +62,7 @@ fun StoryItem(data: Data, onClick: (Data) -> Unit) {
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "10:00 AM",
+                    text = formatRelativeTime(dateString = data.creationDate),
                     style = MaterialTheme.typography.bodySmall.copy(
                         fontWeight = FontWeight.W300,
                         color = colorResource(R.color.textBody).copy(0.2f)
