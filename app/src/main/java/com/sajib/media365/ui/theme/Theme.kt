@@ -47,7 +47,7 @@ fun Media360Theme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = getMaterialTypography(),
         content = content
     )
 }
