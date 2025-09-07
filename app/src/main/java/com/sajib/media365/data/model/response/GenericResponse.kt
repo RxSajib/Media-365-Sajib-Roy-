@@ -9,7 +9,7 @@ data class GenericResponse<T : Any?>(
 )
 
 data class ErrorResponse(
-    val code: Int = 400, val message: String = "", val path: String = "",
+    val code: Int = 400, val message: String = "Something went wrong", val path: String = "",
 
     @SerializedName("times  tamp") val timeStamp: String = ""
 )

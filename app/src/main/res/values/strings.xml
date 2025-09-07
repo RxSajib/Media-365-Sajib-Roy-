@@ -2,4 +2,5 @@
     <string name="app_name">Media360</string>
 
     <string name="home">Home</string>
+    <string name="retry">Retry</string>
 </resources>

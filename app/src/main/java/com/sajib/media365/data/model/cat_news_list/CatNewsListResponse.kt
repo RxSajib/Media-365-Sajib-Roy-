@@ -2,8 +2,8 @@ package com.sajib.media365.data.model.cat_news_list
 
 
 data class CatNewsListResponse(
-    val `data`: List<Data>,
-    val title: String
+    val `data`: List<Data> = emptyList(),
+    val title: String?= null
 )
 
 data class Data(
