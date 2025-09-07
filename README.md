@@ -1,4 +1,4 @@
-# Media 365 Home — Android News App
+# Media 365 Home Task Assessment (Sajib Roy) 
 
 A clean and simple News app built with **Kotlin** and **Jetpack Compose**, showcasing **MVVM**, **Kotlin Flow**, **Clean Architecture**, **Hilt (DI)**, **Retrofit**, and **type‑safe navigation**. Users can browse a list of news articles and view full article details. The UI is intentionally minimal; the code emphasizes maintainability, testability, and best practices.
 
@@ -204,4 +204,4 @@ MIT © Sajib Roy
 
 ### Short Project Description (for GitHub)
 
-> **Media 365 Home** — A minimal, well‑architected Android news app using Kotlin, Jetpack Compose, MVVM, Flow, Hilt, and Retrofit. Clean code, type‑safe navigation.
+> **Media 365 Home Task Assessment** — A minimal, well‑architected Android news app using Kotlin, Jetpack Compose, MVVM, Flow, Hilt, and Retrofit. Clean code, type‑safe navigation.
