@@ -20,11 +20,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.sajib.media365.data.model.cat_news_list.Data
 import com.sajib.media365.data.model.cat_news_list.Links
 import com.sajib.media365.data.model.cat_news_list.TeaserImage
 import com.sajib.media365.data.model.cat_news_list.Url
 import com.sajib.media365.R
+import com.sajib.media365.data.model.cat_news_list.Data
 import com.sajib.media365.utils.TimeDateConverter.formatRelativeTime
 
 @Composable
