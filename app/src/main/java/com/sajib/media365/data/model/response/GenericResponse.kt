@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class GenericResponse<T : Any?>(
     val data: T? = null,
-    val error: ErrorResponse? = null
+    val error: ErrorResponse? = null,
+    val isSuccess : Boolean
 )
 
 data class ErrorResponse(

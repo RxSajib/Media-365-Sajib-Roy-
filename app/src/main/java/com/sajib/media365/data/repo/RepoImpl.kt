@@ -50,27 +50,27 @@ suspend fun <T : Any> executeSafely(
     } catch (ce: CancellationException) {
         throw ce
     } catch (e: UnknownHostException) {
-        GenericResponse(error = ErrorResponse(message = "No Internet Connection"))
+        GenericResponse(error = ErrorResponse(message = "No Internet Connection"), isSuccess = false)
     } catch (e: SocketTimeoutException) {
-        GenericResponse(error = ErrorResponse(message = "Request timed out"))
+        GenericResponse(error = ErrorResponse(message = "Request timed out"),  isSuccess = false)
     } catch (e: Exception) {
-        GenericResponse(error = ErrorResponse(message = e.message ?: "Something went wrong"))
+        GenericResponse(error = ErrorResponse(message = e.message ?: "Something went wrong"),  isSuccess = false)
     }
 }
 
 private fun <T : Any> Response<T>.toGenericResponse(): GenericResponse<T> {
     if (isSuccessful) {
         val body = body()
-        return if (body != null) GenericResponse(data = body)
-        else GenericResponse(error = ErrorResponse(message = "Empty response body"))
+        return if (body != null) GenericResponse(data = body,  isSuccess = true)
+        else GenericResponse(error = ErrorResponse(message = "Empty response body"),  isSuccess = false)
     }
 
-    val fallback = GenericResponse<T>(error = ErrorResponse(code = code(), message = message()))
+    val fallback = GenericResponse<T>(error = ErrorResponse(code = code(), message = message()),  isSuccess = false)
     val raw = try { errorBody()?.string() } catch (_: Exception) { null } ?: return fallback
 
     return runCatching {
         val parsed = Gson().fromJson(raw, ErrorResponse::class.java)
-        GenericResponse<T>(error = parsed ?: ErrorResponse(code = code(), message = message()))
+        GenericResponse<T>(error = parsed ?: ErrorResponse(code = code(), message = message()),  isSuccess = false)
     }.getOrElse { fallback }
 }
 
