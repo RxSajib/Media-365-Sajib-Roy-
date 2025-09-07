@@ -24,8 +24,9 @@ class HomeViewModel @Inject constructor(
     private val repo: Repo
 ) : ViewModel() {
 
-    private val mutableStateFlow = MutableStateFlow<ScreenState<PostResponse>?>(null)
-    val post = mutableStateFlow.asStateFlow()
+    private val mutableStateFlow = MutableStateFlow<ScreenState<PostResponse>?>(null)//todo ignore this code
+    val post = mutableStateFlow.asStateFlow()//todo ignore this code
+    var postData by mutableStateOf(PostResponse()) //todo ignore this code
 
 
     private val mutableStateFlowStoryList = MutableStateFlow<ScreenState<CatNewsListResponse>?>(null)
@@ -35,13 +36,13 @@ class HomeViewModel @Inject constructor(
 
     var errorMessage by mutableStateOf("")
     var isFailedLoadAPI by mutableStateOf(false)
-    var postData by mutableStateOf(PostResponse())
+
 
     init {
         getStoryList()
     }
 
-    fun getPost(){
+    fun getPost(){ //todo ignore this code
         viewModelScope.launch {
             isLoading = true
             isFailedLoadAPI = false
@@ -60,7 +61,7 @@ class HomeViewModel @Inject constructor(
             }
 
         }
-    }
+    } //todo ignore this code
 
     fun getStoryList(){
         viewModelScope.launch {

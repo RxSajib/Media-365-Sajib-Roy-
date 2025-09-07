@@ -4,12 +4,12 @@ package com.sajib.media365.data.model.cate_news_details
 import androidx.annotation.Keep
 
 data class CateNewsDetails(
-    val contents: List<Content>,
-    val creationDate: String,
-    val headline: String,
-    val heroImage: HeroImage,
-    val id: String,
-    val modifiedDate: String
+    val contents: List<Content> = emptyList(),
+    val creationDate: String? = null,
+    val headline: String?= null,
+    val heroImage: HeroImage? = null,
+    val id: String?= null,
+    val modifiedDate: String ?= null
 )
 
 data class Content(
