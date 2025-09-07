@@ -75,7 +75,7 @@ fun StoryItem(data: Data, onClick: (Data) -> Unit) {
                 style = MaterialTheme.typography.bodySmall.copy(
                     color = colorResource(R.color.textBody).copy(0.6f)
                 ),
-                maxLines = 4,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
 
             )
