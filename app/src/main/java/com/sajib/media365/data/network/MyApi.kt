@@ -12,7 +12,7 @@ interface MyApi {
 
 
     @GET("posts")
-    suspend fun getPost(): Response<PostResponse>
+    suspend fun getPost(): Response<PostResponse> //todo ignore it
 
 
     @GET("news-list")
