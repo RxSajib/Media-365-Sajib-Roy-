@@ -73,8 +73,7 @@ Expose them to BuildConfig in **`app/build.gradle.kts`**:
 ```kotlin
 android {
     defaultConfig {
-        buildConfigField("String", "API_BASE_URL", "\"${properties["API_BASE_URL"]}\"")
-        buildConfigField("String", "NEWS_API_KEY", "\"${properties["NEWS_API_KEY"] ?: ""}\"")
+                buildConfigField("String", "BASE_URL", "\"${project.properties["BASEURL"]}\"")
     }
 }
 ```
@@ -157,10 +156,24 @@ If passing an article ID or URL between screens:
 
 ```kotlin
 @Serializable
-data class ArticleArg(val id: String)
+object HomeScreenRoute
 
-// Usage
-navController.navigate("details/${argJson}")
+@Serializable
+data class DetailsScreenRoute(val id: String = "", val headLine: String = "")
+
+
+
+ val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = SplashScreenRoute) {
+        composable<SplashScreenRoute> { SplashScreen(navHostController = navController) }
+        composable<HomeScreenRoute> { HomeScreen(navHostController = navController) }
+
+        composable<DetailsScreenRoute> {
+            val args = it.toRoute<DetailsScreenRoute>()
+            DetailsScreen(navHostController = navController, args)
+        }
+    }
 ```
 
 Or use Navigation Compose’s `navArgument` with typed routes.
