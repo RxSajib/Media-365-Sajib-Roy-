@@ -82,13 +82,48 @@ android {
 Configure Retrofit using the values:
 
 ```kotlin
-@Provides
-@Singleton
-fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
-    .baseUrl(BuildConfig.API_BASE_URL)
-    .client(client)
-    .addConverterFactory(MoshiConverterFactory.create())
-    .build()
+  @Provides
+    @Singleton
+    fun providesMyApi(): MyApi {
+        val interceptor = run {
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            httpLoggingInterceptor.apply {
+                if (BuildConfig.DEBUG) {
+                    httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                }
+            }
+        }
+
+
+        val okHttpClient: OkHttpClient =
+            OkHttpClient.Builder().connectTimeout(300, TimeUnit.SECONDS)
+                .readTimeout(300, TimeUnit.SECONDS).writeTimeout(300, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .addInterceptor(interceptor)
+                .addInterceptor { chain ->
+                    val original: Request = chain.request()
+                    val requestBuilder: Request.Builder =
+                        original.newBuilder().addHeader("Connection", "keep-alive")
+                            .addHeader("Accept", "*/*")
+                            .addHeader("Content-Type", "application/json")
+                            .addHeader("Accept-Language", "en")
+
+
+                    requestBuilder.method(original.method, original.body)
+                    val request: Request = requestBuilder.build()
+
+                    chain.proceed(request)
+                }
+                .build()
+
+        val gsonBuilder = GsonBuilder()
+        gsonBuilder.setLenient()
+        val gson = gsonBuilder.create()
+
+        return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).client(okHttpClient).build()
+            .create(MyApi::class.java)
+    }
 ```
 
 
